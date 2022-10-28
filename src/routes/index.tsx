@@ -1,7 +1,7 @@
 import { Routes as WrapperRoutes, Route } from 'react-router-dom'
 import { DefaultLayout } from '../layouts/defaultLayout'
 import { History } from '../pages/History'
-import { Home } from '../pages/Home'
+import { Home } from '../pages/home'
 
 export const Routes = () => {
   return (
