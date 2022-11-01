@@ -1,10 +1,18 @@
 import { Play } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import * as Styles from './styles'
-import { TCreateCycleFormData } from './types'
+import { newCycleFormValidationSchema, TCreateCycleFormData } from './types'
 
 export const Home = () => {
-  const { register, handleSubmit, watch } = useForm<TCreateCycleFormData>()
+  const { register, handleSubmit, watch } = useForm<TCreateCycleFormData>({
+    resolver: zodResolver(newCycleFormValidationSchema),
+    defaultValues: {
+      task: '',
+      minutesAmount: 0
+    }
+  })
 
   const handleCreateNewCyle = (data: TCreateCycleFormData) => {
     console.log(data)
@@ -12,7 +20,6 @@ export const Home = () => {
 
   const task = watch('task')
 
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   const isSubmitDisabled: boolean = !task
 
   return (
@@ -38,8 +45,8 @@ export const Home = () => {
             id='minutesAmount'
             placeholder='00'
             step={1}
-            min={1}
-            max={10}
+            min={5}
+            max={60}
             {...register('minutesAmount', { valueAsNumber: true })}
           />
           <span>minutos.</span>
