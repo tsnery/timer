@@ -6,7 +6,7 @@ import * as Styles from './styles'
 import { newCycleFormValidationSchema, TCreateCycleFormData } from './types'
 
 export const Home = () => {
-  const { register, handleSubmit, watch } = useForm<TCreateCycleFormData>({
+  const { register, handleSubmit, watch, reset } = useForm<TCreateCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
       task: '',
@@ -16,6 +16,7 @@ export const Home = () => {
 
   const handleCreateNewCyle = (data: TCreateCycleFormData) => {
     console.log(data)
+    reset()
   }
 
   const task = watch('task')
