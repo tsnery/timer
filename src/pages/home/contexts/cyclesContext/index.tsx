@@ -61,6 +61,7 @@ export function CyclesProvider ({ children }: ICyclesProviderProps) {
   }
 
   const context: TCyclesContextProps = {
+    cycles,
     activeCycle,
     activeCycleId,
     amountSecondsPassed,

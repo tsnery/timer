@@ -7,6 +7,7 @@ export interface ICreateCycleProps {
 }
 
 export interface TCyclesContextProps {
+  cycles: Cycle[]
   activeCycle: Cycle | undefined
   activeCycleId: string | null
   amountSecondsPassed: number
