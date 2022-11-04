@@ -14,7 +14,7 @@ export interface TCyclesContextProps {
   markCurrentCycleAsFinished: () => void
   setSecondsPassed: (seconds: number) => void
   interruptCycle: () => void
-  createNewCyle: ({ minutesAmount, task }: ICreateCycleProps) => void
+  createNewCycle: ({ minutesAmount, task }: ICreateCycleProps) => void
 }
 
 export interface ICyclesProviderProps {

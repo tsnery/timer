@@ -34,7 +34,7 @@ export function CyclesProvider ({ children }: ICyclesProviderProps) {
     dispatch(interruptCycleAction())
   }
 
-  const createNewCyle = ({
+  const createNewCycle = ({
     minutesAmount,
     task
   }: ICreateCycleProps) => {
@@ -57,7 +57,7 @@ export function CyclesProvider ({ children }: ICyclesProviderProps) {
     markCurrentCycleAsFinished,
     setSecondsPassed,
     interruptCycle,
-    createNewCyle
+    createNewCycle
   }
 
   return (

@@ -9,7 +9,7 @@ import { useCycles } from './contexts/cyclesContext'
 import * as Styles from './styles'
 
 export function Home () {
-  const { activeCycle, createNewCyle, interruptCycle } = useCycles()
+  const { activeCycle, createNewCycle, interruptCycle } = useCycles()
 
   const newCycleForm = useForm<TCreateCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -22,7 +22,7 @@ export function Home () {
   const { handleSubmit, watch, reset } = newCycleForm
 
   const handleCreateNewCycle = ({ minutesAmount, task }: TCreateCycleFormData) => {
-    createNewCyle({ minutesAmount, task })
+    createNewCycle({ minutesAmount, task })
     reset()
   }
 
