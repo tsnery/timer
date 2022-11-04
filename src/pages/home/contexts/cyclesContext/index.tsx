@@ -1,22 +1,24 @@
 import { createContext, useContext, useReducer, useState } from 'react'
 
-import { Cycle } from '../../../../entities/Cycle'
+import { cyclesReducer, IAddNewCycleAction } from '../../reducers/cycles/reducer'
 import { TCyclesContextProps, ICyclesProviderProps, ICreateCycleProps } from './types'
+import {
+  addNewCycleAction,
+  interruptCycleAction,
+  markCycleAsFinished
+} from '../../reducers/cycles/actions'
 
 const CyclesContext = createContext({} as TCyclesContextProps)
 
 export function CyclesProvider ({ children }: ICyclesProviderProps) {
-  const [cycles, dispatch] = useReducer((state: Cycle[], action: any) => {
-    if (action.type === 'ADD_NEW_CYCLE') {
-      return [...state, action.payload.newCycle]
-    }
-
-    return state
-  }, [])
+  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
+    cycles: [],
+    activeCycleId: null
+  })
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState<number>(0)
 
-  const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
+  const { cycles, activeCycleId } = cyclesState
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
@@ -25,43 +27,25 @@ export function CyclesProvider ({ children }: ICyclesProviderProps) {
   }
 
   const markCurrentCycleAsFinished = () => {
-    dispatch({
-      type: 'FINISH_CURRENT_CYCLE',
-      payload: {
-        activeCycleId
-      }
-    })
+    dispatch(markCycleAsFinished())
   }
 
   const interruptCycle = () => {
-    dispatch({
-      type: 'INTERRUPT_CURRENT_CYCLE',
-      payload: {
-        activeCycleId
-      }
-    })
-
-    setActiveCycleId(null)
+    dispatch(interruptCycleAction())
   }
 
   const createNewCyle = ({
     minutesAmount,
     task
   }: ICreateCycleProps) => {
-    const newCycle: Cycle = {
+    const newCycle: IAddNewCycleAction = {
       id: String(new Date().getTime()),
       task,
       minutesAmount,
       startDate: new Date()
     }
 
-    dispatch({
-      type: 'ADD_NEW_CYCLE',
-      payload: {
-        newCycle
-      }
-    })
-    setActiveCycleId(newCycle.id)
+    dispatch(addNewCycleAction(newCycle))
     setAmountSecondsPassed(0)
   }
 
