@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useReducer, useState } from 'react'
 
 import { Cycle } from '../../../../entities/Cycle'
 import { TCyclesContextProps, ICyclesProviderProps, ICreateCycleProps } from './types'
@@ -6,7 +6,14 @@ import { TCyclesContextProps, ICyclesProviderProps, ICreateCycleProps } from './
 const CyclesContext = createContext({} as TCyclesContextProps)
 
 export function CyclesProvider ({ children }: ICyclesProviderProps) {
-  const [cycles, setCycles] = useState<Cycle[]>([])
+  const [cycles, dispatch] = useReducer((state: Cycle[], action: any) => {
+    if (action.type === 'ADD_NEW_CYCLE') {
+      return [...state, action.payload.newCycle]
+    }
+
+    return state
+  }, [])
+
   const [amountSecondsPassed, setAmountSecondsPassed] = useState<number>(0)
 
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
@@ -18,28 +25,21 @@ export function CyclesProvider ({ children }: ICyclesProviderProps) {
   }
 
   const markCurrentCycleAsFinished = () => {
-    setCycles(cycles => cycles.map(cycle => {
-      if (cycle.id === activeCycle?.id) {
-        return { ...cycle, finishedDate: new Date() }
-      } else {
-        return cycle
+    dispatch({
+      type: 'FINISH_CURRENT_CYCLE',
+      payload: {
+        activeCycleId
       }
-    }))
+    })
   }
 
   const interruptCycle = () => {
-    setCycles((cycles) =>
-      cycles.map((cycle) => {
-        if (cycle.id === activeCycleId) {
-          return {
-            ...cycle,
-            interruptedDate: new Date()
-          }
-        } else {
-          return cycle
-        }
-      })
-    )
+    dispatch({
+      type: 'INTERRUPT_CURRENT_CYCLE',
+      payload: {
+        activeCycleId
+      }
+    })
 
     setActiveCycleId(null)
   }
@@ -55,7 +55,12 @@ export function CyclesProvider ({ children }: ICyclesProviderProps) {
       startDate: new Date()
     }
 
-    setCycles((prevState) => [...prevState, newCycle])
+    dispatch({
+      type: 'ADD_NEW_CYCLE',
+      payload: {
+        newCycle
+      }
+    })
     setActiveCycleId(newCycle.id)
     setAmountSecondsPassed(0)
   }
