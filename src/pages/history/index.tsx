@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { Cycle } from '../../entities/Cycle'
-import { useCycles } from '../home/contexts/cyclesContext'
+import { useCycles } from '../../contexts/cyclesContext'
 import * as Styles from './styles'
 
 export const History = () => {
@@ -43,7 +43,7 @@ export const History = () => {
               <tr key={cycle.id}>
                 <td>{cycle.task}</td>
                 <td>{cycle.minutesAmount} minutos</td>
-                <td>{formatDistanceToNow(cycle.startDate, {
+                <td>{formatDistanceToNow(new Date(cycle.startDate), {
                   addSuffix: true,
                   locale: ptBR
                 })}</td>

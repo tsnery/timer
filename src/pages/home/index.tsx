@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { NewCycleForm } from './subComponents/newCycleForm'
 import { Countdown } from './subComponents/countdown'
 import { newCycleFormValidationSchema, TCreateCycleFormData } from './types'
-import { useCycles } from './contexts/cyclesContext'
+import { useCycles } from '../../contexts/cyclesContext'
 import * as Styles from './styles'
 
 export function Home () {
