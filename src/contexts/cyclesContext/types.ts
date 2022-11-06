@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Cycle } from '../../../../entities/Cycle'
+import { Cycle } from '../../entities/Cycle'
 
 export interface ICreateCycleProps {
   minutesAmount: number
